@@ -9,8 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import me.academeg.yandextest.Adapters.ArtistsAdapter;
 import me.academeg.yandextest.Adapters.ItemClickListener;
+import me.academeg.yandextest.Api.ApiArtist;
 import me.academeg.yandextest.Components.SimpleDividerItemDecoration;
 
 
@@ -30,7 +36,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        adapter = new ArtistsAdapter();
+        adapter = new ArtistsAdapter(this, null);
         adapter.setClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
