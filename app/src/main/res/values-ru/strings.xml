@@ -2,4 +2,5 @@
 <resources>
     <string name="artists">Исполнители</string>
     <string name="title_activity_artist">Про исполнителя</string>
+    <string name="biography">Биография</string>
 </resources>

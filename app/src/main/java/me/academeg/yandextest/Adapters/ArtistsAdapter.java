@@ -63,7 +63,9 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
                 build.append(genres.get(i));
                 build.append(", ");
             }
-            build.append(genres.get(genres.size() - 1));
+            if (genres.size() > 0) {
+                build.append(genres.get(genres.size() - 1));
+            }
             holder.genresTV.setText(build.toString());
         }
 

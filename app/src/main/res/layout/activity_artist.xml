@@ -25,6 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/avatar_height"
                 android:fitsSystemWindows="true"
+                android:padding="50dp"
+                android:src="@drawable/ic_account_box_24dp"
                 android:id="@+id/iv_avatar" />
 
             <android.support.v7.widget.Toolbar
@@ -53,7 +55,6 @@
                 android:layout_marginBottom="16dp"
 
                 android:textColor="#999"
-                android:text="rap, rap, rap, rap, rap"
                 android:id="@+id/tv_genres" />
 
             <TextView
@@ -63,7 +64,6 @@
                 android:layout_marginBottom="16dp"
 
                 android:textColor="#999"
-                android:text="55 albums   •   44 tracks"
                 android:id="@+id/tv_count_albums_tracks" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_below="@id/tv_count_albums_tracks"
                 android:layout_marginBottom="16dp"
 
-                android:text="Biography"
+                android:text="@string/biography"
                 android:textColor="@android:color/black"
                 android:id="@+id/tv_title_biography" />
 
@@ -82,7 +82,6 @@
                 android:layout_below="@id/tv_title_biography"
 
                 android:textColor="@android:color/black"
-                android:text="ceeeeeeervveverv erverv ervererv erververv erverv erver ver  ervv erve"
                 android:id="@+id/tv_biography" />
         </RelativeLayout>
 
