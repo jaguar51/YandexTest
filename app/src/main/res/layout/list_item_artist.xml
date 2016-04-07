@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:id="@+id/rl_item_artist"
+    android:clickable="true"
+    android:foreground="?selectableItemBackground">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_account_box_24dp"
+        android:id="@+id/iv_avatar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_avatar"
+        android:layout_toEndOf="@+id/iv_avatar"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black"
+        android:singleLine="true"
+        android:text="Eminem"
+        android:id="@+id/tv_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignLeft="@+id/tv_name"
+        android:layout_alignStart="@+id/tv_name"
+
+        android:textColor="#999"
+        android:singleLine="true"
+        android:text="rap, rap, rap, rap"
+        android:id="@+id/tv_genres" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_avatar"
+        android:layout_alignLeft="@+id/tv_genres"
+        android:layout_alignStart="@+id/tv_genres"
+
+        android:text="100 albums, 100 tracks"
+        android:textColor="#999"
+        android:singleLine="true"
+        android:id="@+id/tv_count_albums_tracks" />
+
+</RelativeLayout>
