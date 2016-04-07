@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">Yandex Test</string>
+    <string name="artists">Artists</string>
+</resources>
