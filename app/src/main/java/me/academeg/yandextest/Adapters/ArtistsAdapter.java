@@ -13,12 +13,16 @@ import me.academeg.yandextest.R;
 
 public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHolder> {
 
+    private ItemClickListener clickListener;
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_artist, parent, false);
 
         ViewHolder vh = new ViewHolder(v);
+        vh.setClickListener(clickListener);
         return vh;
     }
 
@@ -32,6 +36,10 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
         return 10;
     }
 
+    public void setClickListener(ItemClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -39,6 +47,8 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
         public TextView nameTV;
         public TextView albumsCountTV;
         private RelativeLayout itemArtistRL;
+
+        private ItemClickListener clickListener;
 
 
         public ViewHolder(View itemView) {
@@ -51,9 +61,15 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
             itemArtistRL.setOnClickListener(this);
         }
 
+        public void setClickListener(ItemClickListener clickListener) {
+            this.clickListener = clickListener;
+        }
+
         @Override
         public void onClick(View v) {
-
+            if (clickListener != null) {
+                clickListener.onClick(v, getAdapterPosition());
+            }
         }
 
     }

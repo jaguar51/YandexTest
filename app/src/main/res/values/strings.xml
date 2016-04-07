@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Yandex Test</string>
     <string name="artists">Artists</string>
+    <string name="title_activity_artist">About artist</string>
 </resources>

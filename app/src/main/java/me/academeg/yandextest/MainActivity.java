@@ -1,13 +1,16 @@
 package me.academeg.yandextest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import me.academeg.yandextest.Adapters.ArtistsAdapter;
+import me.academeg.yandextest.Adapters.ItemClickListener;
 import me.academeg.yandextest.Components.SimpleDividerItemDecoration;
 
 
@@ -25,10 +28,16 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.artists);
         setSupportActionBar(toolbar);
 
         adapter = new ArtistsAdapter();
+        adapter.setClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent in = new Intent(MainActivity.this, ArtistActivity.class);
+                startActivity(in);
+            }
+        });
         artistsRV = (RecyclerView) findViewById(R.id.rr_artists_list);
         artistsRV.setLayoutManager(new LinearLayoutManager(this));
         artistsRV.setAdapter(adapter);
