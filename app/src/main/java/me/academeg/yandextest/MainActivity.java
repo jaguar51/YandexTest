@@ -2,15 +2,15 @@ package me.academeg.yandextest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -18,10 +18,15 @@ import me.academeg.yandextest.Adapters.ArtistsAdapter;
 import me.academeg.yandextest.Adapters.ItemClickListener;
 import me.academeg.yandextest.Api.ApiArtist;
 import me.academeg.yandextest.Components.SimpleDividerItemDecoration;
+import me.academeg.yandextest.Loaders.ArtistAsyncLoader;
 
 
 public class MainActivity extends AppCompatActivity
-        implements SwipeRefreshLayout.OnRefreshListener {
+        implements SwipeRefreshLayout.OnRefreshListener,
+        LoaderManager.LoaderCallbacks<ArrayList<ApiArtist>> {
+
+    private final int ARTISTS_LOADER_ID = 0;
+    private boolean isFirstLoad = true;
 
     private RecyclerView artistsRV;
     private ArtistsAdapter adapter;
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.artists);
         setSupportActionBar(toolbar);
 
         adapter = new ArtistsAdapter(this, null);
@@ -41,21 +47,72 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position) {
                 Intent in = new Intent(MainActivity.this, ArtistActivity.class);
+                in.putExtra("artist", adapter.getData().get(position));
                 startActivity(in);
             }
         });
         artistsRV = (RecyclerView) findViewById(R.id.rr_artists_list);
         artistsRV.setLayoutManager(new LinearLayoutManager(this));
+        artistsRV.addItemDecoration(new SimpleDividerItemDecoration(this));
         artistsRV.setAdapter(adapter);
-        SimpleDividerItemDecoration divider = new SimpleDividerItemDecoration(this);
-        artistsRV.addItemDecoration(divider);
 
         layout = (SwipeRefreshLayout) findViewById(R.id.swl_layout);
         layout.setOnRefreshListener(this);
+
+        if (savedInstanceState != null) {
+            isFirstLoad = savedInstanceState.getBoolean("isFirstLoad");
+        }
+
+        getSupportLoaderManager().initLoader(ARTISTS_LOADER_ID, null, this);
+        if (isFirstLoad) {
+            getSupportLoaderManager().getLoader(ARTISTS_LOADER_ID).forceLoad();
+            isFirstLoad = false;
+            layout.post(new Runnable() {
+                @Override
+                public void run() {
+                    layout.setRefreshing(true);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean("isFirstLoad", isFirstLoad);
     }
 
     @Override
     public void onRefresh() {
+        getSupportLoaderManager().getLoader(ARTISTS_LOADER_ID).forceLoad();
+    }
+
+
+//    The creation of the loader to load the data from the server
+    @Override
+    public Loader<ArrayList<ApiArtist>> onCreateLoader(int id, Bundle args) {
+        ArtistAsyncLoader loader = null;
+        if (id == ARTISTS_LOADER_ID) {
+            loader = new ArtistAsyncLoader(this);
+        }
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<ApiArtist>> loader, ArrayList<ApiArtist> data) {
+        ArtistAsyncLoader artistLoader = (ArtistAsyncLoader) loader;
+        if (artistLoader.isNetworkException()) {
+            Toast.makeText(this, R.string.check_internet_connection, Toast.LENGTH_SHORT).show();
+        }
+        if (data != null) {
+            adapter.changeData(data);
+        }
+        layout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<ApiArtist>> loader) {
 
     }
 }
