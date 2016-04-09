@@ -14,7 +14,9 @@
         android:layout_height="100dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_account_box_24dp"
-        android:id="@+id/iv_avatar" />
+        android:id="@+id/iv_avatar"
+
+        android:transitionName="avatar"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,7 +30,9 @@
         android:textColor="@android:color/black"
         android:singleLine="true"
         android:text="Eminem"
-        android:id="@+id/tv_name" />
+        android:id="@+id/tv_name"
+
+        android:transitionName="name"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,7 +44,9 @@
         android:textColor="#999"
         android:singleLine="true"
         android:text="rap, rap, rap, rap"
-        android:id="@+id/tv_genres" />
+        android:id="@+id/tv_genres"
+
+        android:transitionName="genres"/>
 
     <TextView
         android:layout_width="wrap_content"

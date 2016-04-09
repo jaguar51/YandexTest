@@ -2,8 +2,10 @@ package me.academeg.yandextest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,8 +52,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position) {
                 Intent in = new Intent(MainActivity.this, ArtistActivity.class);
+                Pair<View, String> p1 = Pair.create(view.findViewById(R.id.iv_avatar), "avatar");
+                Pair<View, String> p2 = Pair.create(view.findViewById(R.id.tv_genres), "genres");
+                Pair<View, String> p3 = Pair.create(view.findViewById(R.id.tv_count_albums_tracks),
+                        "albums_tracks");
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(MainActivity.this, p1, p2, p3);
                 in.putExtra("artist", adapter.getData().get(position));
-                startActivity(in);
+                startActivity(in, options.toBundle());
             }
         });
         artistsRV = (RecyclerView) findViewById(R.id.rr_artists_list);
