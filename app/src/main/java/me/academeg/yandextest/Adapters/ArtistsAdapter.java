@@ -3,6 +3,7 @@ package me.academeg.yandextest.Adapters;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,27 +47,20 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
 
         holder.nameTV.setText(artist.getName());
 
-//        set counts tracks and albums
-        StringBuilder builder = new StringBuilder();
-        builder.append(artist.getCountAlbums());
-        builder.append(" albums");
-        builder.append(", ");
-        builder.append(artist.getCountTracks());
-        builder.append(" tracks");
-        holder.albumsTracksCountTV.setText(builder.toString());
+        String album = mContext.getResources().getQuantityString(R.plurals.album,
+                artist.getCountAlbums(),
+                artist.getCountAlbums());
+
+        String track = mContext.getResources().getQuantityString(R.plurals.track,
+                artist.getCountTracks(),
+                artist.getCountTracks());
+
+        holder.albumsTracksCountTV.setText(String.format("%s, %s", album, track));
 
 //        set genres tv
         if(artist.getGenres() != null) {
-            StringBuilder build = new StringBuilder();
-            ArrayList<String> genres = artist.getGenres();
-            for (int i = 0; i < genres.size() - 1; i++) {
-                build.append(genres.get(i));
-                build.append(", ");
-            }
-            if (genres.size() > 0) {
-                build.append(genres.get(genres.size() - 1));
-            }
-            holder.genresTV.setText(build.toString());
+            String join = TextUtils.join(", ", artist.getGenres());
+            holder.genresTV.setText(join);
         }
 
 //        load artist avatar
@@ -79,7 +73,6 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
             holder.avatarIV.setImageDrawable(
                     ContextCompat.getDrawable(mContext, R.drawable.ic_account_box_24dp));
         }
-
     }
 
     @Override
