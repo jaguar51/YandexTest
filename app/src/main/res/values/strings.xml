@@ -14,4 +14,5 @@
         <item quantity="other">%d tracks</item>
     </plurals>
     <string name="check_internet_connection">Check the Internet connection</string>
+    <string name="search">Search</string>
 </resources>

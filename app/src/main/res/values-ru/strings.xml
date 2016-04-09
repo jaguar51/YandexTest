@@ -16,4 +16,5 @@
         <item quantity="other">%d песен</item>
     </plurals>
     <string name="check_internet_connection">Проверьте интернет соединени</string>
+    <string name="search">Поиск</string>
 </resources>

@@ -8,7 +8,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,7 +24,7 @@ import me.academeg.yandextest.Loaders.ArtistAsyncLoader;
 
 
 public class MainActivity extends AppCompatActivity
-        implements SwipeRefreshLayout.OnRefreshListener,
+        implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener,
         LoaderManager.LoaderCallbacks<ArrayList<ApiArtist>> {
 
     private final int ARTISTS_LOADER_ID = 0;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView artistsRV;
     private ArtistsAdapter adapter;
+    private ArrayList<ApiArtist> stockArtistsList;
 
     private SwipeRefreshLayout layout;
 
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         getSupportLoaderManager().initLoader(ARTISTS_LOADER_ID, null, this);
-        if (isFirstLoad) {
+        if (isFirstLoad || adapter.getItemCount() == 0) {
             getSupportLoaderManager().getLoader(ARTISTS_LOADER_ID).forceLoad();
             isFirstLoad = false;
             layout.post(new Runnable() {
@@ -86,6 +89,79 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRefresh() {
         getSupportLoaderManager().getLoader(ARTISTS_LOADER_ID).forceLoad();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(this);
+
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (stockArtistsList == null) {
+            stockArtistsList = adapter.getData();
+        }
+        if (newText.equals("")) {
+            adapter.changeData(stockArtistsList);
+        } else {
+            adapter.changeData(performSearch(stockArtistsList, newText));
+        }
+        return true;
+    }
+
+    /**
+     * Goes through the given list and filters it according to the given query.
+     * @param artists list given as search sample
+     * @param query to be searched
+     * @return new filtered list
+     */
+    private ArrayList<ApiArtist> performSearch(ArrayList<ApiArtist> artists, String query) {
+
+        // First we split the query so that we're able
+        // to search word by word (in lower case).
+        String[] queryByWords = query.toLowerCase().split("\\s+");
+
+        // Empty list to fill with matches.
+        ArrayList<ApiArtist> artistsFiltered = new ArrayList<>();
+
+        // Go through initial releases and perform search.
+        for (ApiArtist artist : artists) {
+
+            // Content to search through (in lower case).
+            String content = artist.getName().toLowerCase();
+
+            for (String word : queryByWords) {
+                // There is a match only if all of the words are contained.
+                int numberOfMatches = queryByWords.length;
+
+                // All query words have to be contained,
+                // otherwise the release is filtered out.
+                if (content.contains(word)) {
+                    numberOfMatches--;
+                } else {
+                    break;
+                }
+
+                // They all match.
+                if (numberOfMatches == 0) {
+                    artistsFiltered.add(artist);
+                }
+            }
+        }
+
+        return artistsFiltered;
     }
 
 
