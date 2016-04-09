@@ -3,4 +3,14 @@
     <string name="artists">Artists</string>
     <string name="title_activity_artist">About artist</string>
     <string name="biography">Biography</string>
+    <plurals name="album">
+        <item quantity="zero">%d album</item>
+        <item quantity="one">%d album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <plurals name="track">
+        <item quantity="zero">%d track</item>
+        <item quantity="one">%d track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
 </resources>

@@ -23,7 +23,8 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/avatar_height"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/avatar_height"
                 android:fitsSystemWindows="true"
                 android:padding="50dp"
                 android:src="@drawable/ic_account_box_24dp"

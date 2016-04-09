@@ -5,10 +5,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import me.academeg.yandextest.Api.ApiArtist;
 
 
-public class ArtistActivity extends AppCompatActivity {
+public class ArtistActivity extends AppCompatActivity implements Callback {
+
+    private ImageView avatarIV;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,11 +28,49 @@ public class ArtistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_artist);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp);
-        setSupportActionBar(toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
+        avatarIV = (ImageView) findViewById(R.id.iv_avatar);
+        TextView genresTV = (TextView) findViewById(R.id.tv_genres);
+        TextView countAlbumsTracksTV = (TextView) findViewById(R.id.tv_count_albums_tracks);
+        TextView titleBiographyTV = (TextView) findViewById(R.id.tv_title_biography);
+        TextView biographyTV = (TextView) findViewById(R.id.tv_biography);
+
+        ApiArtist artist = getIntent().getParcelableExtra("artist");
+        if (artist != null) {
+            toolbar.setTitle(artist.getName());
+            if (artist.getAvatar() != null) {
+                Picasso.with(this)
+                        .load(artist.getAvatar().getOriginalPath())
+                        .placeholder(R.drawable.ic_account_box_24dp)
+                        .into(avatarIV, this);
+            }
+
+            if (genresTV != null) {
+                genresTV.setText(TextUtils.join(", ", artist.getGenres()));
+            }
+
+            String album = getResources().getQuantityString(R.plurals.album,
+                    artist.getCountAlbums(),
+                    artist.getCountAlbums());
+
+            String track = getResources().getQuantityString(R.plurals.track,
+                    artist.getCountTracks(),
+                    artist.getCountTracks());
+
+            countAlbumsTracksTV.setText(String.format("%s   •   %s", album, track));
+
+            if (artist.getDescription() != null) {
+                biographyTV.setText(String.format("%s %s", artist.getName(),
+                        artist.getDescription()));
+            } else {
+                biographyTV.setVisibility(View.GONE);
+                titleBiographyTV.setVisibility(View.GONE);
+            }
+        }
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -35,4 +85,15 @@ public class ArtistActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    Picasso result
+    @Override
+    public void onSuccess() {
+        avatarIV.setPadding(0, 0, 0, 0);
+        avatarIV.setScaleType(ImageView.ScaleType.CENTER_CROP);
+    }
+
+    @Override
+    public void onError() {
+
+    }
 }

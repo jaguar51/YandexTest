@@ -3,4 +3,16 @@
     <string name="artists">Исполнители</string>
     <string name="title_activity_artist">Про исполнителя</string>
     <string name="biography">Биография</string>
+    <plurals name="album">
+        <item quantity="one">%d альбом</item>
+        <item quantity="few">%d альбома</item>
+        <item quantity="many">%d альбомов</item>
+        <item quantity="other">%d альбомов</item>
+    </plurals>
+    <plurals name="track">
+        <item quantity="one">%d песня</item>
+        <item quantity="few">%d песни</item>
+        <item quantity="many">%d песен</item>
+        <item quantity="other">%d песен</item>
+    </plurals>
 </resources>
