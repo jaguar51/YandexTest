@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         getSupportLoaderManager().initLoader(ARTISTS_LOADER_ID, null, this);
-        if (isFirstLoad || adapter.getItemCount() == 0) {
+        if (isFirstLoad) {
             getSupportLoaderManager().getLoader(ARTISTS_LOADER_ID).forceLoad();
             isFirstLoad = false;
             layout.post(new Runnable() {
