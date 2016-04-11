@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView artistsRV;
     private ArtistsAdapter adapter;
     private ArrayList<ApiArtist> stockArtistsList;
+    private TextView noArtistTV;
 
     private SwipeRefreshLayout layout;
 
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.artists);
         setSupportActionBar(toolbar);
+
+        noArtistTV = (TextView) findViewById(R.id.tv_no_artists);
 
         adapter = new ArtistsAdapter(this, null);
         adapter.setClickListener(new ItemClickListener() {
@@ -140,6 +144,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             adapter.changeData(performSearch(stockArtistsList, newText));
         }
+        setVisibleNoArtistTV(adapter.getItemCount() == 0);
         return true;
     }
 
@@ -186,6 +191,14 @@ public class MainActivity extends AppCompatActivity
         return artistsFiltered;
     }
 
+    private void setVisibleNoArtistTV(boolean visible) {
+        if (visible) {
+            noArtistTV.setVisibility(View.VISIBLE);
+        } else {
+            noArtistTV.setVisibility(View.GONE);
+        }
+    }
+
 
 //    The creation of the loader to load the data from the server
     @Override
@@ -206,6 +219,7 @@ public class MainActivity extends AppCompatActivity
         if (data != null) {
             adapter.changeData(data);
         }
+        setVisibleNoArtistTV(adapter.getItemCount() <= 0);
         layout.setRefreshing(false);
     }
 

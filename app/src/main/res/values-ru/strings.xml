@@ -17,4 +17,5 @@
     </plurals>
     <string name="check_internet_connection">Проверьте интернет соединени</string>
     <string name="search">Поиск</string>
+    <string name="no_artists">Нет исполнителей</string>
 </resources>

@@ -29,10 +29,24 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/swl_layout">
 
-        <android.support.v7.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rr_artists_list"/>
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/no_artists"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:id="@+id/tv_no_artists"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rr_artists_list" />
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
