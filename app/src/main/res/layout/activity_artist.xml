@@ -27,7 +27,7 @@
                 android:minHeight="@dimen/avatar_height"
                 android:fitsSystemWindows="true"
                 android:padding="50dp"
-                android:src="@drawable/ic_account_box_24dp"
+                android:src="@drawable/ic_account_box_150dp"
                 android:id="@+id/iv_avatar"
 
                 android:transitionName="avatar"/>
