@@ -1,5 +1,6 @@
 package me.academeg.yandextest;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.squareup.picasso.Picasso;
 import me.academeg.yandextest.Api.ApiArtist;
 
 
-public class ArtistActivity extends AppCompatActivity implements Callback {
+public class ArtistActivity extends AppCompatActivity {
 
     private ImageView avatarIV;
 
@@ -39,13 +40,29 @@ public class ArtistActivity extends AppCompatActivity implements Callback {
         TextView biographyTV = (TextView) findViewById(R.id.tv_biography);
 
         ApiArtist artist = getIntent().getParcelableExtra("artist");
+        Bitmap thumbAvBitmap = getIntent().getParcelableExtra("avatar");
+        if (thumbAvBitmap != null) {
+            avatarIV.setImageBitmap(thumbAvBitmap);
+            setUpAvatarImageView();
+        }
         if (artist != null) {
             toolbar.setTitle(artist.getName());
             if (artist.getAvatar() != null) {
+//                Load original avatar
                 Picasso.with(this)
                         .load(artist.getAvatar().getOriginalPath())
-                        .placeholder(R.drawable.ic_account_box_24dp)
-                        .into(avatarIV, this);
+                        .noPlaceholder()
+                        .into(avatarIV, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                setUpAvatarImageView();
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
             }
 
             if (genresTV != null) {
@@ -85,15 +102,8 @@ public class ArtistActivity extends AppCompatActivity implements Callback {
         return super.onOptionsItemSelected(item);
     }
 
-//    Picasso result
-    @Override
-    public void onSuccess() {
+    private void setUpAvatarImageView() {
         avatarIV.setPadding(0, 0, 0, 0);
         avatarIV.setScaleType(ImageView.ScaleType.CENTER_CROP);
-    }
-
-    @Override
-    public void onError() {
-
     }
 }

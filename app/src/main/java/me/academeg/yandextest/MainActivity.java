@@ -1,6 +1,9 @@
 package me.academeg.yandextest;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
@@ -14,6 +17,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -52,13 +56,23 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position) {
                 Intent in = new Intent(MainActivity.this, ArtistActivity.class);
+                ApiArtist artist = adapter.getData().get(position);
+                in.putExtra("artist", artist);
+
+                Bitmap avatarBitmap = null;
+                Drawable drawable = ((ImageView) view.findViewById(R.id.iv_avatar)).getDrawable();
+                if (artist.getAvatar() != null && drawable instanceof BitmapDrawable) {
+                    avatarBitmap = ((BitmapDrawable) drawable).getBitmap();
+                }
+                in.putExtra("avatar", avatarBitmap);
+
                 Pair<View, String> p1 = Pair.create(view.findViewById(R.id.iv_avatar), "avatar");
                 Pair<View, String> p2 = Pair.create(view.findViewById(R.id.tv_genres), "genres");
                 Pair<View, String> p3 = Pair.create(view.findViewById(R.id.tv_count_albums_tracks),
                         "albums_tracks");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(MainActivity.this, p1, p2, p3);
-                in.putExtra("artist", adapter.getData().get(position));
+
                 startActivity(in, options.toBundle());
             }
         });
