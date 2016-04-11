@@ -23,7 +23,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/avatar_height"
                 android:minHeight="@dimen/avatar_height"
                 android:fitsSystemWindows="true"
                 android:padding="50dp"
@@ -88,6 +88,16 @@
 
                 android:textColor="@android:color/black"
                 android:id="@+id/tv_biography" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_below="@id/tv_biography"
+                android:textColor="@color/colorAccent"
+                android:id="@+id/tv_link"
+                android:clickable="true"
+                android:foreground="?selectableItemBackground" />
         </RelativeLayout>
 
 

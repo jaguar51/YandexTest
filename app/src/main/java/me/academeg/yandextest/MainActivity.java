@@ -155,6 +155,9 @@ public class MainActivity extends AppCompatActivity
      * @return new filtered list
      */
     private ArrayList<ApiArtist> performSearch(ArrayList<ApiArtist> artists, String query) {
+        if (artists == null) {
+            return null;
+        }
 
         // First we split the query so that we're able
         // to search word by word (in lower case).
